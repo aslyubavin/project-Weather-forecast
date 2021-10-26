@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 * {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #424242;
 }
 
 .container {
@@ -27,5 +32,108 @@
     max-width: none;
     padding: 0 10px;
   }
+}
+
+.header {
+  width: 100%;
+  background: #8A7EF2;
+}
+
+.header__wrapper {
+  width: 100%;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header__logo {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.header__logo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.search__wrapper {
+  width: 100%;
+  height: 90vh;
+  padding: 60px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.search__form {
+  -ms-flex-item-align: center;
+      align-self: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.search__input {
+  width: 220px;
+  height: 40px;
+  margin-bottom: 30px;
+  padding: 12px 18px;
+  border-radius: 30px;
+  border: none;
+  outline: 1px solid #424242;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
+
+.search__input:focus {
+  outline: 2px solid rgba(138, 126, 242, 0.1);
+}
+
+.search__photo {
+  position: relative;
+  width: 600px;
+  height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.search__photo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 /*# sourceMappingURL=style.min.css.map */
