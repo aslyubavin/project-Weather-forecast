@@ -19,15 +19,60 @@
     </header>
     <section class="search">
         <div class="container">
-            <div class="search__wrapper">
+            <div class="search__wrapper search__wrapper_active">
                 <div class="search__content">
                     <h1 class="search__title op-0">Weather Today</h1>
                     <p class="search__subtitle op-0">Just type a city</p>
-                    <input class="search__input op-0" name="search" type="text" placeholder="Search City">
-                    <button class="search__button op-0">Check weather</button>
+                    <form class="search__form">
+                        <input class="search__input op-0" name="city" type="text" placeholder="Search City">
+                        <button class="search__button op-0">Check weather</button>
+                    </form>
                 </div>
                 <div class="search__photo op-0">
                     <img src="img/main_weather.jpg" alt="weather">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="weather">
+        <div class="container">
+            <div class="weather__wrapper">
+                <div class="weather__main info-block">
+                    <div class="weather__main-info">
+                        <div class="weather__main-city">London</div>
+                        <div class="weather__main-date">October 20 2021</div>
+                        <div class="weather__main-temp">7&deg</div>
+                    </div>
+                    <div class="weather__main-status">
+                        <img class="weather__main-icon" src="img/02d-icon.svg" alt="weather_icon">
+                        <div class="weather__main-descr">Cloudy</div>
+                        <div class="weather__main-feel">Feels Like 5&deg</div>
+                    </div>
+                </div>
+                <div class="weather__minor info-block">
+                    <div class="weather__minor-item">
+                        <span class="icon-temp"></span>
+                        <div class="weather__minor-article">Low / High</div>
+                        <div class="weather__minor-value">5&deg / 8&deg</div>
+                    </div>
+                    <div class="weather__minor-divider"></div>
+                    <div class="weather__minor-item">
+                        <span class="icon-humidity"></span>
+                        <div class="weather__minor-article">Humidity</div>
+                        <div class="weather__minor-value">73%</div>
+                    </div>
+                    <div class="weather__minor-divider"></div>
+                    <div class="weather__minor-item">
+                        <span class="icon-pressure"></span>
+                        <div class="weather__minor-article">Pressure</div>
+                        <div class="weather__minor-value">1014.2 mb</div>
+                    </div>
+                    <div class="weather__minor-divider"></div>
+                    <div class="weather__minor-item">
+                        <span class="icon-wind"></span>
+                        <div class="weather__minor-article">Wind</div>
+                        <div class="weather__minor-value">21 km/h</div>
+                    </div>
                 </div>
             </div>
         </div>
