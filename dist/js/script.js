@@ -9,7 +9,8 @@ window.addEventListener('DOMContentLoaded', () => {
         mainForm = document.querySelector('.search__form'),
         mainInput = document.querySelector('.search__input'),
         mainButton = document.querySelector('.search__button'),
-        mainPhoto = document.querySelector('.search__photo');
+        mainPhoto = document.querySelector('.search__photo'),
+        weatherBlock = document.querySelector('.weather');
 
     function showBlock(selector, activeClass) {
         selector.classList.remove('op-0');
@@ -23,12 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(showBlock, 1200, mainPhoto, 'op-1_img');
 
     //=================================================================== active btn
-    mainButton.addEventListener('click', () => {
-        mainWrapper.classList.add('search__wrapper_active');
-    });
-
     mainLogo.addEventListener('click', () => {
         mainWrapper.classList.remove('search__wrapper_active');
+        weatherBlock.classList.add('disN');
     });
 
     //=================================================================== weather api
@@ -53,5 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         getData(mainInput.value);
         mainForm.reset();
+        mainWrapper.classList.add('search__wrapper_active');
+        weatherBlock.classList.remove('disN');
     });
 });
