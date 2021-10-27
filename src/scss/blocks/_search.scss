@@ -55,7 +55,7 @@
     }
     &__button {
         width: 150px;
-        height: 40px;
+        height: 50px;
         padding: 0 18px;
         border-radius: 30px;
         border: none;
@@ -71,6 +71,7 @@
         }
     }
     &__photo {
+        display: block;
         position: relative;
         width: 600px;
         height: 100%;
@@ -93,35 +94,72 @@
     }
 }
 
-@keyframes showBlock {
-    0% {
-        opacity: 0;
-        transform: translateY(300%);
+.search__wrapper_active {
+    height: 85px;
+    padding: 15px 0;
+    justify-content: flex-start;
+    transition: all 0.8s ease;
+    @media(max-width: 575.98px) {
+        padding: 15px 0;
     }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
+    .search__content {
+        flex-basis: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        @media(max-width: 575.98px) {
+            flex-direction: column;
+        }
+    }
+    .search__title {
+        flex-grow: 2;
+        margin: 0;
+        @media(max-width: 767.98px) {
+            font-size: 20px;
+        }
+        @media(max-width: 575.98px) {
+            display: none;
+        }
+    }
+    .search__subtitle {
+        display: none;
+    }
+    .search__input {
+        margin: 0 20px;
+        @media(max-width: 575.98px) {
+            margin: 0 0 15px 0;
+        }
+    }
+    .search__photo {
+        display: none;
     }
 }
 
-@keyframes showImg {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
+// @keyframes showBlock {
+//     0% {
+//         opacity: 0;
+//         transform: translateY(300%);
+//     }
+//     100% {
+//         opacity: 1;
+//         transform: translateY(0);
+//     }
+// }
+// @keyframes showImg {
+//     0% {
+//         opacity: 0;
+//     }
+//     100% {
+//         opacity: 1;
+//     }
+// }
 
-.op-0 {
-    opacity: 0;
-}
-
-.op-1 {
-    opacity: 1;
-    animation: showBlock 0.4s ease-in-out;
-}
-
-.op-1_img {
-    animation: showImg 0.4s ease-in-out;
-}
+// .op-0 {
+//     opacity: 0;
+// }
+// .op-1 {
+//     opacity: 1;
+//     animation: showBlock 0.4s ease-in-out;
+// }
+// .op-1_img {
+//     animation: showImg 0.4s ease-in-out;
+// }
