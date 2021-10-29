@@ -1,0 +1,13 @@
+.forecast {
+    margin-bottom: 20px;
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        @media (max-width: 767.98px) {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+}

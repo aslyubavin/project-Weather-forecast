@@ -62,12 +62,6 @@
     &__button {
         width: 150px;
         height: 50px;
-        padding: 0 18px;
-        border-radius: 30px;
-        border: none;
-        background: $coral;
-        color: #fff;
-        cursor: pointer;
         transition: all 0.4s;
         @media (min-width: 768px) {
             &:hover {

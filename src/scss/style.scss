@@ -34,7 +34,10 @@ body {
 	display: none;
 }
 
+@import "blocks/button";
 @import "blocks/info-block";
 @import "blocks/header";
 @import "blocks/search";
 @import "blocks/weather";
+@import "blocks/forecast";
+@import "blocks/forecast-daily";

@@ -10,7 +10,9 @@ window.addEventListener('DOMContentLoaded', () => {
         mainInput = document.querySelector('.search__input'),
         mainButton = document.querySelector('.search__button'),
         mainPhoto = document.querySelector('.search__photo'),
-        weatherBlock = document.querySelector('.weather');
+        weatherBlock = document.querySelector('.weather'),
+        dailyBtn = document.querySelector('.forecast-daily-day__button'),
+        dailyCard = document.querySelector('.forecast-daily');
 
     function showBlock(selector, activeClass) {
         selector.classList.remove('op-0');
@@ -29,10 +31,16 @@ window.addEventListener('DOMContentLoaded', () => {
         weatherBlock.classList.add('disN');
     });
 
+    dailyBtn.addEventListener('click', () => {
+        dailyCard.style.transform = 'rotateY(180deg)';
+        dailyBtn.style.opacity = '0';
+        dailyBtn.style.opacity = '1';
+    });
+
     //=================================================================== weather api
     mainForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        getData(mainInput.value);
+        getCurrentData(mainInput.value);
         mainForm.reset();
         mainWrapper.classList.add('search__wrapper_active');
         weatherBlock.classList.remove('disN');
@@ -54,16 +62,28 @@ window.addEventListener('DOMContentLoaded', () => {
         pressure = document.querySelector('[data-article="pressure"]'),
         wind = document.querySelector('[data-article="wind"]');
 
-    function getData(value) {
-        fetch(`${api.url}weather?q=${value}&appid=${api.key}`)
+    function getCurrentData(value) {
+        fetch(`${api.url}weather?q=${value}&units=metric&appid=${api.key}`)
             .then(data => {
                 return data.json();
             })
-            .then(displayData);
+            .then(displayData)
+            .then(getForecastData);
+    }
+
+    function getForecastData(coord) {
+        fetch(`${api.url}onecall?lat=${coord.lat}&lon=${coord.lon}&units=metric&exclude=minutely&appid=${api.key}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(data => {
+                console.log(data);
+            });
     }
 
     function displayData(data) {
         console.log(data);
+        
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let currentDate = new Date(data.dt * 1000);
 
@@ -82,20 +102,23 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             city.innerText = data.name;
             date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`;
-            temp.innerHTML = `${Math.round(+data.main.temp - 273.15)}&deg`;
+            temp.innerHTML = `${Math.round(+data.main.temp)}&deg`;
             icon.src = `img/${data.weather[0].icon}-icon.svg`;
             descr.innerText = toUpperCaseFirstChar(data.weather[0].description);
-            feel.innerHTML = `Feels like ${Math.round(data.main.feels_like - 273.15)}&deg`;
+            feel.innerHTML = `Feels like ${Math.round(data.main.feels_like)}&deg`;
     
-            minmaxTemp.innerHTML = `${Math.round(+data.main.temp_min - 273.15)}&deg / ${Math.round(+data.main.temp_max - 273.15)}&deg`;
+            minmaxTemp.innerHTML = `${Math.round(+data.main.temp_min)}&deg / ${Math.round(+data.main.temp_max)}&deg`;
             humidity.innerText = `${data.main.humidity} %`;
             pressure.innerText = `${data.main.pressure} mb`;
             wind.innerText = `${Math.round(data.wind.speed)} m/s`;
+
+            return data.coord;
         }
     }
 
     function toUpperCaseFirstChar(str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
 
 });
