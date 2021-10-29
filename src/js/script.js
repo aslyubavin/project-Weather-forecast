@@ -11,8 +11,9 @@ window.addEventListener('DOMContentLoaded', () => {
         mainButton = document.querySelector('.search__button'),
         mainPhoto = document.querySelector('.search__photo'),
         weatherBlock = document.querySelector('.weather'),
+        dailyCard = document.querySelector('.forecast-daily'),
         dailyBtn = document.querySelector('.forecast-daily-day__button'),
-        dailyCard = document.querySelector('.forecast-daily');
+        hourlyBtn = document.querySelector('.forecast-daily-hour__button');
 
     function showBlock(selector, activeClass) {
         selector.classList.remove('op-0');
@@ -29,13 +30,21 @@ window.addEventListener('DOMContentLoaded', () => {
     mainLogo.addEventListener('click', () => {
         mainWrapper.classList.remove('search__wrapper_active');
         weatherBlock.classList.add('disN');
+        dailyCard.classList.remove('forecast-daily_active');
+        dailyBtn.classList.add('button_active');
+        hourlyBtn.classList.remove('button_active');
     });
 
-    dailyBtn.addEventListener('click', () => {
-        dailyCard.style.transform = 'rotateY(180deg)';
-        dailyBtn.style.opacity = '0';
-        dailyBtn.style.opacity = '1';
-    });
+    function rotateCard(btn) {
+        btn.addEventListener('click', () => {
+            dailyCard.classList.toggle('forecast-daily_active');
+            dailyBtn.classList.toggle('button_active');
+            hourlyBtn.classList.toggle('button_active');
+        });
+    }
+
+    rotateCard(hourlyBtn);
+    rotateCard(dailyBtn);
 
     //=================================================================== weather api
     mainForm.addEventListener('submit', (e) => {
@@ -83,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function displayData(data) {
         console.log(data);
-        
+
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let currentDate = new Date(data.dt * 1000);
 
@@ -94,7 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
             icon.src = `img/error-icon.svg`;
             descr.innerText = '';
             feel.innerHTML = '';
-    
+
             minmaxTemp.innerHTML = '--';
             humidity.innerText = '--';
             pressure.innerText = '--';
@@ -106,7 +115,7 @@ window.addEventListener('DOMContentLoaded', () => {
             icon.src = `img/${data.weather[0].icon}-icon.svg`;
             descr.innerText = toUpperCaseFirstChar(data.weather[0].description);
             feel.innerHTML = `Feels like ${Math.round(data.main.feels_like)}&deg`;
-    
+
             minmaxTemp.innerHTML = `${Math.round(+data.main.temp_min)}&deg / ${Math.round(+data.main.temp_max)}&deg`;
             humidity.innerText = `${data.main.humidity} %`;
             pressure.innerText = `${data.main.pressure} mb`;

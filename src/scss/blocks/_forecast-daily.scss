@@ -4,8 +4,8 @@
     height: 395px;
     transform-style: preserve-3d;
     transition: transform 0.7s ease-in-out;
-    &:hover {
-        transform: translateY(180deg);
+    &_active {
+        transform: rotateY(-180deg);
     }
     @media (max-width: 991.98px) {
         width: 320px;
@@ -14,12 +14,11 @@
         width: 100%;
     }
     &-day {
+        backface-visibility: hidden;
         position: absolute;
         width: calc(100% - 40px);
         height: calc(100% - 30px);
-        backface-visibility: hidden;
         display: flex;
-        display: none;
         flex-direction: column;
         justify-content: stretch;
         align-items: center;
@@ -30,10 +29,12 @@
         left: -50px;
         width: 120px;
         height: 35px;
+        opacity: 0;
+        visibility: hidden;
         transform: rotate(90deg);
         background: rgba($color: $coral, $alpha: 0.7);
         letter-spacing: 1px;
-        transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
+        transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
         @media (min-width: 768px) {
             &:hover {
                 letter-spacing: 2px;
@@ -89,5 +90,67 @@
     &-day__icon {
         width: 65px;
         height: 65px;
+    }
+    &-hour {
+        backface-visibility: hidden;
+        position: absolute;
+        width: calc(100% - 40px);
+        height: calc(100% - 30px);
+        transform: rotateY(180deg);
+    }
+    &-hour__button {
+        position: absolute;
+        top: 45%;
+        right: -50px;
+        width: 120px;
+        height: 35px;
+        opacity: 0;
+        visibility: hidden;
+        transform: rotate(-90deg);
+        background: rgba($color: $purple, $alpha: 0.7);
+        letter-spacing: 1px;
+        transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+        @media (min-width: 768px) {
+            &:hover {
+                letter-spacing: 2px;
+                right: -59px;
+                height: 45px;
+                background: $purple;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+        }
+    }
+    &-hour__title {
+        margin-bottom: 20px;
+    }
+    &-hour__inner {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding-right: 50px;
+    }
+    &-hour__list {
+        list-style-type: none;
+    }
+    &-hour__item {
+        margin-bottom: 18px;
+        width: 100px;
+    }
+    &-hour__info {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-hour__temp {
+        font-weight: 700;
+        color: $purple;
+    }
+    &-hour__descr {
+        color: $purple;
+    }
+    &-hour__divider {
+        width: 1px;
+        height: 310px;
+        background: rgba($color: $purple, $alpha: 0.5);
     }
 }

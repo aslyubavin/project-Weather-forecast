@@ -5,4 +5,8 @@
     background: $coral;
     color: #fff;
     cursor: pointer;
+    &_active {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
 }

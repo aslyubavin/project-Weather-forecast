@@ -81,6 +81,10 @@
   color: #fff;
   cursor: pointer;
 }
+.button_active {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
 
 .info-block {
   padding: 15px 20px;
@@ -549,10 +553,9 @@
   transition: transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out, -webkit-transform 0.7s ease-in-out;
 }
-.forecast-daily:hover {
-  -webkit-transform: translateY(180deg);
-      -ms-transform: translateY(180deg);
-          transform: translateY(180deg);
+.forecast-daily_active {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
 }
 @media (max-width: 991.98px) {
   .forecast-daily {
@@ -565,15 +568,14 @@
   }
 }
 .forecast-daily-day {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   position: absolute;
   width: calc(100% - 40px);
   height: calc(100% - 30px);
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  display: none;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -591,14 +593,16 @@
   left: -50px;
   width: 120px;
   height: 35px;
+  opacity: 0;
+  visibility: hidden;
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
           transform: rotate(90deg);
   background: rgba(250, 135, 123, 0.7);
   letter-spacing: 1px;
-  -webkit-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
-  -o-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
-  transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
+  -webkit-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  -o-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
 }
 @media (min-width: 768px) {
   .forecast-daily-day__button:hover {
@@ -666,4 +670,80 @@
 .forecast-daily-day__icon {
   width: 65px;
   height: 65px;
+}
+.forecast-daily-hour {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  position: absolute;
+  width: calc(100% - 40px);
+  height: calc(100% - 30px);
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.forecast-daily-hour__button {
+  position: absolute;
+  top: 45%;
+  right: -50px;
+  width: 120px;
+  height: 35px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  background: rgba(138, 126, 242, 0.7);
+  letter-spacing: 1px;
+  -webkit-transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  -o-transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+}
+@media (min-width: 768px) {
+  .forecast-daily-hour__button:hover {
+    letter-spacing: 2px;
+    right: -59px;
+    height: 45px;
+    background: #8A7EF2;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+.forecast-daily-hour__title {
+  margin-bottom: 20px;
+}
+.forecast-daily-hour__inner {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-right: 50px;
+}
+.forecast-daily-hour__list {
+  list-style-type: none;
+}
+.forecast-daily-hour__item {
+  margin-bottom: 18px;
+  width: 100px;
+}
+.forecast-daily-hour__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.forecast-daily-hour__temp {
+  font-weight: 700;
+  color: #8A7EF2;
+}
+.forecast-daily-hour__descr {
+  color: #8A7EF2;
+}
+.forecast-daily-hour__divider {
+  width: 1px;
+  height: 310px;
+  background: rgba(138, 126, 242, 0.5);
 }
