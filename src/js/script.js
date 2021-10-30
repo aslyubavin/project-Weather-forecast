@@ -70,8 +70,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCurrentWeather(data) {
-        console.log(data);
-
         let city = document.querySelector('.weather__main-city'),
             date = document.querySelector('.weather__main-date'),
             temp = document.querySelector('.weather__main-temp'),

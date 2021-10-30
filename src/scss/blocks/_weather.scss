@@ -1,5 +1,8 @@
 .weather {
     margin-bottom: 40px;
+    @media (max-width: 575.98px) {
+        margin-bottom: 0;
+    }
     &__wrapper {
         width: 100%;
         display: flex;
@@ -12,7 +15,7 @@
         }
     }
     &__main {
-        flex-basis: 60%;
+        flex-basis: 62%;
         display: flex;
         justify-content: space-around;
         align-items: flex-start;
