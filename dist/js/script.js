@@ -61,6 +61,10 @@ window.addEventListener('DOMContentLoaded', () => {
         url: 'https://api.openweathermap.org/data/2.5/'
     };
 
+    function toUpperCaseFirstChar(str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     function getCurrentData(value) {
         fetch(`${api.url}weather?q=${value}&units=metric&appid=${api.key}`)
             .then(data => {
@@ -127,7 +131,6 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(displayForecast);
     }
 
-
     function displayForecast(data) {
         console.log(data);
 
@@ -174,10 +177,31 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         displayHourlyForecast();
-    }
 
-    function toUpperCaseFirstChar(str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        function displayShortForecast() {
+            let date = document.querySelectorAll('.forecast-weekly__date'),
+                dayTemp = document.querySelectorAll('.forecast-weekly__temp-day'),
+                nightTemp = document.querySelectorAll('.forecast-weekly__temp-night'),
+                icon = document.querySelectorAll('.forecast-weekly__icon');
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            date.forEach((day, key) => {
+                let currentDate = new Date(data.daily[key].dt * 1000);
+                day.innerText = `${dayNames[currentDate.getDay()]} ${currentDate.getDate()}`;
+            });
+            dayTemp.forEach((dayTemp, key) => {
+                dayTemp.innerHTML = `${Math.round(data.daily[key].temp.day)}&deg;`;
+            });
+            nightTemp.forEach((nightTemp, key) => {
+                nightTemp.innerHTML = `${Math.round(data.daily[key].temp.night)}&deg;`;
+            });
+            icon.forEach((icon, key) => {
+                icon.src = `img/${data.daily[key].weather[0].icon}-icon.svg`;
+            });
+        }
+
+        displayShortForecast();
     }
 
 });
