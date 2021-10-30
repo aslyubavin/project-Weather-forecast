@@ -1,5 +1,6 @@
 .forecast {
     margin-bottom: 20px;
+    transition: opacity 0.4s, visibility 0.4s;
     &__wrapper {
         width: 100%;
         display: flex;

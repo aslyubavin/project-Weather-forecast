@@ -516,6 +516,9 @@
 
 .forecast {
   margin-bottom: 20px;
+  -webkit-transition: opacity 0.4s, visibility 0.4s;
+  -o-transition: opacity 0.4s, visibility 0.4s;
+  transition: opacity 0.4s, visibility 0.4s;
 }
 .forecast__wrapper {
   width: 100%;
@@ -615,12 +618,12 @@
   }
 }
 .forecast-daily-day__title {
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 .forecast-daily-day__item {
   width: 100%;
   margin-bottom: 15px;
-  padding-left: 60px;
+  padding-left: 50px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -640,6 +643,11 @@
 .forecast-daily-day__part {
   margin-bottom: 5px;
   font-size: 18px;
+}
+.forecast-daily-day__feel {
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 300;
 }
 .forecast-daily-day__temp {
   font-size: 20px;
@@ -719,6 +727,11 @@
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding-right: 50px;
+}
+@media (max-width: 575.98px) {
+  .forecast-daily-hour__inner {
+    padding-right: 45px;
+  }
 }
 .forecast-daily-hour__list {
   list-style-type: none;

@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
         mainButton = document.querySelector('.search__button'),
         mainPhoto = document.querySelector('.search__photo'),
         weatherBlock = document.querySelector('.weather'),
+        forecastBlock = document.querySelector('.forecast'),
         dailyCard = document.querySelector('.forecast-daily'),
         dailyBtn = document.querySelector('.forecast-daily-day__button'),
         hourlyBtn = document.querySelector('.forecast-daily-hour__button');
@@ -60,38 +61,27 @@ window.addEventListener('DOMContentLoaded', () => {
         url: 'https://api.openweathermap.org/data/2.5/'
     };
 
-    let city = document.querySelector('.weather__main-city'),
-        date = document.querySelector('.weather__main-date'),
-        temp = document.querySelector('.weather__main-temp'),
-        icon = document.querySelector('.weather__main-icon'),
-        descr = document.querySelector('.weather__main-descr'),
-        feel = document.querySelector('.weather__main-feel'),
-        minmaxTemp = document.querySelector('[data-article="minmax"]'),
-        humidity = document.querySelector('[data-article="humidity"]'),
-        pressure = document.querySelector('[data-article="pressure"]'),
-        wind = document.querySelector('[data-article="wind"]');
-
     function getCurrentData(value) {
         fetch(`${api.url}weather?q=${value}&units=metric&appid=${api.key}`)
             .then(data => {
                 return data.json();
             })
-            .then(displayData)
-            .then(getForecastData);
+            .then(displayCurrentWeather);
     }
 
-    function getForecastData(coord) {
-        fetch(`${api.url}onecall?lat=${coord.lat}&lon=${coord.lon}&units=metric&exclude=minutely&appid=${api.key}`)
-            .then(data => {
-                return data.json();
-            })
-            .then(data => {
-                console.log(data);
-            });
-    }
-
-    function displayData(data) {
+    function displayCurrentWeather(data) {
         console.log(data);
+
+        let city = document.querySelector('.weather__main-city'),
+            date = document.querySelector('.weather__main-date'),
+            temp = document.querySelector('.weather__main-temp'),
+            icon = document.querySelector('.weather__main-icon'),
+            descr = document.querySelector('.weather__main-descr'),
+            feel = document.querySelector('.weather__main-feel'),
+            minmaxTemp = document.querySelector('[data-article="minmax"]'),
+            humidity = document.querySelector('[data-article="humidity"]'),
+            pressure = document.querySelector('[data-article="pressure"]'),
+            wind = document.querySelector('[data-article="wind"]');
 
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let currentDate = new Date(data.dt * 1000);
@@ -99,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (data.cod == 400 || data.cod == 404) {
             city.innerText = 'City not found';
             date.innerText = 'Enter the correct city';
-            temp.innerHTML = '--&deg';
+            temp.innerHTML = '--&deg;';
             icon.src = `img/error-icon.svg`;
             descr.innerText = '';
             feel.innerHTML = '';
@@ -108,26 +98,88 @@ window.addEventListener('DOMContentLoaded', () => {
             humidity.innerText = '--';
             pressure.innerText = '--';
             wind.innerText = '--';
+
+            forecastBlock.style.opacity = '0';
+            forecastBlock.style.visibility = 'hidden';
         } else {
+            forecastBlock.style.opacity = '1';
+            forecastBlock.style.visibility = 'visible';
+
             city.innerText = data.name;
             date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`;
-            temp.innerHTML = `${Math.round(+data.main.temp)}&deg`;
+            temp.innerHTML = `${Math.round(+data.main.temp)}&deg;`;
             icon.src = `img/${data.weather[0].icon}-icon.svg`;
             descr.innerText = toUpperCaseFirstChar(data.weather[0].description);
-            feel.innerHTML = `Feels like ${Math.round(data.main.feels_like)}&deg`;
+            feel.innerHTML = `Feels like ${Math.round(data.main.feels_like)}&deg;`;
 
-            minmaxTemp.innerHTML = `${Math.round(+data.main.temp_min)}&deg / ${Math.round(+data.main.temp_max)}&deg`;
+            minmaxTemp.innerHTML = `${Math.round(+data.main.temp_min)}&deg; / ${Math.round(+data.main.temp_max)}&deg;`;
             humidity.innerText = `${data.main.humidity} %`;
             pressure.innerText = `${data.main.pressure} mb`;
             wind.innerText = `${Math.round(data.wind.speed)} m/s`;
 
-            return data.coord;
+            getForecastData(data.coord);
         }
+    }
+
+    function getForecastData(coord) {
+        fetch(`${api.url}onecall?lat=${coord.lat}&lon=${coord.lon}&units=metric&exclude=minutely&appid=${api.key}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(displayForecast);
+    }
+
+
+    function displayForecast(data) {
+        console.log(data);
+
+        function displayDailyForecast() {
+            let morningTemp = document.querySelector('[data-temp="morning"]'),
+                afternoonTemp = document.querySelector('[data-temp="afternoon"]'),
+                eveningTemp = document.querySelector('[data-temp="evening"]'),
+                nightTemp = document.querySelector('[data-temp="night"]'),
+                morningFeel = document.querySelector('[data-feel="morning"]'),
+                afternoonFeel = document.querySelector('[data-feel="afternoon"]'),
+                eveningFeel = document.querySelector('[data-feel="evening"]'),
+                nightFeel = document.querySelector('[data-feel="night"]');
+
+            morningTemp.innerHTML = `${Math.round(data.daily[0].temp.morn)}&deg;`;
+            afternoonTemp.innerHTML = `${Math.round(data.daily[0].temp.day)}&deg;`;
+            eveningTemp.innerHTML = `${Math.round(data.daily[0].temp.eve)}&deg;`;
+            nightTemp.innerHTML = `${Math.round(data.daily[0].temp.night)}&deg;`;
+
+            morningFeel.innerHTML = `${Math.round(data.daily[0].feels_like.morn)}&deg;`;
+            afternoonFeel.innerHTML = `${Math.round(data.daily[0].feels_like.day)}&deg;`;
+            eveningFeel.innerHTML = `${Math.round(data.daily[0].feels_like.eve)}&deg;`;
+            nightFeel.innerHTML = `${Math.round(data.daily[0].feels_like.night)}&deg;`;
+        }
+
+        displayDailyForecast();
+
+        function displayHourlyForecast() {
+            let hour = document.querySelectorAll('.forecast-daily-hour__time'),
+                temp = document.querySelectorAll('.forecast-daily-hour__temp'),
+                descr = document.querySelectorAll('.forecast-daily-hour__descr');
+
+            function getHour(date) {
+                return new Date(date * 1000).getHours();
+            }
+            hour.forEach((hour, key) => {
+                hour.innerText = `${getHour(data.hourly[key].dt)}:00`;
+            });
+            temp.forEach((temp, key) => {
+                temp.innerHTML = `${Math.round(data.hourly[key].temp)}&deg;`;
+            });
+            descr.forEach((descr, key) => {
+                descr.innerText = toUpperCaseFirstChar(data.hourly[key].weather[0].main);
+            });
+        }
+
+        displayHourlyForecast();
     }
 
     function toUpperCaseFirstChar(str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
 
 });

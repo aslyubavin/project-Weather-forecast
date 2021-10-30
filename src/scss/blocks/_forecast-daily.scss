@@ -47,12 +47,12 @@
         }
     }
     &-day__title {
-        margin-bottom: 20px;
+        margin-bottom: 35px;
     }
     &-day__item {
         width: 100%;
         margin-bottom: 15px;
-        padding-left: 60px;
+        padding-left: 50px;
         display: flex;
         justify-content: space-between;
         &:last-child {
@@ -67,6 +67,11 @@
     &-day__part {
         margin-bottom: 5px;
         font-size: 18px;
+    }
+    &-day__feel {
+        margin-bottom: 5px;
+        font-size: 18px;
+        font-weight: 300;
     }
     &-day__temp {
         font-size: 20px;
@@ -129,6 +134,9 @@
         display: flex;
         justify-content: space-between;
         padding-right: 50px;
+        @media(max-width: 575.98px) {
+            padding-right: 45px;
+        }
     }
     &-hour__list {
         list-style-type: none;
