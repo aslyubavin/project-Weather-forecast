@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
     function showLongForecast() {
         const btn = document.querySelector('.forecast-weekly__button'),
             longForecastCard = document.querySelector('.forecast-weekly__long');
-        
+
         btn.addEventListener('click', () => {
             longForecastCard.classList.toggle('forecast-weekly__long_active');
         });
@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
             forecastBlock.style.visibility = 'visible';
 
             city.innerText = data.name;
-            date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`;
+            date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()} | ${currentDate.getHours()}:00`;
             temp.innerHTML = `${Math.round(+data.main.temp)}&deg;`;
             icon.src = `img/${data.weather[0].icon}-icon.svg`;
             descr.innerText = toUpperCaseFirstChar(data.weather[0].description);
@@ -144,6 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function displayForecast(data) {
         console.log(data);
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         function displayDailyForecast() {
             let morningTemp = document.querySelector('[data-temp="morning"]'),
@@ -195,8 +196,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 nightTemp = document.querySelectorAll('.forecast-weekly__temp-night'),
                 icon = document.querySelectorAll('.forecast-weekly__icon');
 
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
             date.forEach((day, key) => {
                 let currentDate = new Date(data.daily[key].dt * 1000);
                 day.innerText = `${dayNames[currentDate.getDay()]} ${currentDate.getDate()}`;
@@ -213,6 +212,42 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         displayShortForecast();
+
+        function displayLongForecast() {
+            let date = document.querySelectorAll('.forecast-weekly__table-date'),
+                temp = document.querySelectorAll('.forecast-weekly__table-temp'),
+                icon = document.querySelectorAll('.forecast-weekly__table-icon img'),
+                humidity = document.querySelectorAll('.forecast-weekly__table-humidity'),
+                pressure = document.querySelectorAll('.forecast-weekly__table-pressure'),
+                wind = document.querySelectorAll('.forecast-weekly__table-wind'),
+                feel = document.querySelectorAll('.forecast-weekly__table-feel');
+            
+
+            date.forEach((date, key) => {
+                let currentDate = new Date(data.daily[key].dt * 1000);
+                date.innerText = `${dayNames[currentDate.getDay()]} ${currentDate.getDate()}`;
+            });
+            temp.forEach((temp, key) => {
+                temp.innerHTML = `<span>${Math.round(data.daily[key].temp.day)}&deg;</span> / <span>${Math.round(data.daily[key].temp.night)}&deg;</span>`;
+            });
+            icon.forEach((icon, key) => {
+                icon.src = `img/${data.daily[key].weather[0].icon}-icon.svg`;
+            });
+            humidity.forEach((humidity, key) => {
+                humidity.innerText = Math.round(data.daily[key].humidity);
+            });
+            pressure.forEach((pressure, key) => {
+                pressure.innerText = Math.round(data.daily[key].pressure);
+            });
+            wind.forEach((wind, key) => {
+                wind.innerText = Math.round(data.daily[key].wind_speed);
+            });
+            feel.forEach((feel, key) => {
+                feel.innerHTML = `${Math.round(data.daily[key].feels_like.day)}&deg;`;
+            });
+        }
+
+        displayLongForecast();
     }
 
 });

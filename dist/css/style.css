@@ -935,7 +935,7 @@
   font-size: 21px;
   color: #fa877b;
 }
-.forecast-weekly__table-day {
+.forecast-weekly__table-date {
   font-weight: 700;
 }
 .forecast-weekly__table-temp span:first-child {
