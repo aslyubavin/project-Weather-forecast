@@ -47,6 +47,17 @@ window.addEventListener('DOMContentLoaded', () => {
     rotateCard(hourlyBtn);
     rotateCard(dailyBtn);
 
+    function showLongForecast() {
+        const btn = document.querySelector('.forecast-weekly__button'),
+            longForecastCard = document.querySelector('.forecast-weekly__long');
+        
+        btn.addEventListener('click', () => {
+            longForecastCard.classList.toggle('forecast-weekly__long_active');
+        });
+    }
+
+    showLongForecast();
+
     //=================================================================== weather api
     mainForm.addEventListener('submit', (e) => {
         e.preventDefault();

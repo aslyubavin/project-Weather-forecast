@@ -2,8 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 @font-face {
   font-family: "icons";
-  src: url("../fonts/icons.eot?tmvuf0");
-  src: url("../fonts/icons.eot?tmvuf0#iefix") format("embedded-opentype"), url("../fonts/icons.ttf?tmvuf0") format("truetype"), url("../fonts/icons.woff?tmvuf0") format("woff"), url("../fonts/icons.svg?tmvuf0#icons") format("svg");
+  src: url("../fonts/icons.eot?353fl0");
+  src: url("../fonts/icons.eot?353fl0#iefix") format("embedded-opentype"), url("../fonts/icons.ttf?353fl0") format("truetype"), url("../fonts/icons.woff?353fl0") format("woff"), url("../fonts/icons.svg?353fl0#icons") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -21,12 +21,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-humidity:before {
-  content: "";
+.icon-pressure:before {
+  content: "";
 }
 
-.icon-pressure:before {
+.icon-day-night:before {
   content: "";
+}
+
+.icon-humidity:before {
+  content: "";
 }
 
 .icon-temp:before {
@@ -768,6 +772,7 @@
 .forecast-weekly {
   position: relative;
   width: 100%;
+  height: 395px;
   margin-left: 35px;
 }
 @media (max-width: 767.98px) {
@@ -777,13 +782,16 @@
 }
 @media (max-width: 575.98px) {
   .forecast-weekly {
+    height: 340px;
     padding: 15px 5px;
   }
 }
 .forecast-weekly__short {
   position: relative;
+  z-index: 100;
   width: 100%;
   height: 363px;
+  background: #fff;
 }
 @media (max-width: 575.98px) {
   .forecast-weekly__short {
@@ -884,4 +892,74 @@
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
+}
+.forecast-weekly__long {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 15px 5px;
+  width: 100%;
+  height: 395px;
+  background: #fff;
+  -webkit-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+@media (max-width: 575.98px) {
+  .forecast-weekly__long {
+    height: 340px;
+    padding: 15px 5px;
+  }
+}
+.forecast-weekly__long_active {
+  -webkit-transform: translateY(calc(100% + 20px));
+      -ms-transform: translateY(calc(100% + 20px));
+          transform: translateY(calc(100% + 20px));
+}
+.forecast-weekly__table {
+  width: 100%;
+  text-align: center;
+}
+@media (max-width: 575.98px) {
+  .forecast-weekly__table td {
+    font-size: 14px;
+  }
+}
+.forecast-weekly__table-article {
+  font-weight: 300;
+  font-size: 12px;
+  color: #fa877b;
+}
+.forecast-weekly__table-article span {
+  font-size: 21px;
+  color: #fa877b;
+}
+.forecast-weekly__table-day {
+  font-weight: 700;
+}
+.forecast-weekly__table-temp span:first-child {
+  color: #fa877b;
+}
+.forecast-weekly__table-temp span:last-child {
+  color: #8A7EF2;
+}
+@media (max-width: 575.98px) {
+  .forecast-weekly__table-temp span {
+    font-size: 14px;
+  }
+}
+.forecast-weekly__table-icon {
+  width: 35px;
+  height: 35px;
+}
+@media (max-width: 575.98px) {
+  .forecast-weekly__table-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+.forecast-weekly__table-icon img {
+  width: 100%;
+  height: 100%;
 }
