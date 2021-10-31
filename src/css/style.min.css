@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 @font-face {
   font-family: 'icons';
-  src: url("../fonts/icons.eot?tmvuf0");
-  src: url("../fonts/icons.eot?tmvuf0#iefix") format("embedded-opentype"), url("../fonts/icons.ttf?tmvuf0") format("truetype"), url("../fonts/icons.woff?tmvuf0") format("woff"), url("../fonts/icons.svg?tmvuf0#icons") format("svg");
+  src: url("../fonts/icons.eot?353fl0");
+  src: url("../fonts/icons.eot?353fl0#iefix") format("embedded-opentype"), url("../fonts/icons.ttf?353fl0") format("truetype"), url("../fonts/icons.woff?353fl0") format("woff"), url("../fonts/icons.svg?353fl0#icons") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -21,12 +21,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-humidity:before {
-  content: "\e900";
+.icon-pressure:before {
+  content: "\e904";
 }
 
-.icon-pressure:before {
+.icon-day-night:before {
   content: "\e901";
+}
+
+.icon-humidity:before {
+  content: "\e900";
 }
 
 .icon-temp:before {
@@ -85,6 +89,11 @@
   cursor: pointer;
 }
 
+.button_active {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .info-block {
   padding: 15px 20px;
   background: rgba(255, 255, 255, 0.1);
@@ -95,6 +104,7 @@
 }
 
 .info-block__title {
+  text-align: center;
   font-size: 20px;
   font-weight: 700;
 }
@@ -404,6 +414,12 @@
   margin-bottom: 40px;
 }
 
+@media (max-width: 575.98px) {
+  .weather {
+    margin-bottom: 0;
+  }
+}
+
 .weather__wrapper {
   width: 100%;
   display: -webkit-box;
@@ -433,8 +449,8 @@
 }
 
 .weather__main {
-  -ms-flex-preferred-size: 60%;
-      flex-basis: 60%;
+  -ms-flex-preferred-size: 62%;
+      flex-basis: 62%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -559,6 +575,8 @@
 
 .forecast {
   margin-bottom: 20px;
+  -webkit-transition: opacity 0.4s, visibility 0.4s;
+  transition: opacity 0.4s, visibility 0.4s;
 }
 
 .forecast__wrapper {
@@ -590,6 +608,8 @@
   position: relative;
   width: 392px;
   height: 395px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 0.7s ease-in-out;
@@ -598,9 +618,9 @@
   transition: transform 0.7s ease-in-out, -webkit-transform 0.7s ease-in-out;
 }
 
-.forecast-daily:hover {
-  -webkit-transform: translateY(180deg);
-          transform: translateY(180deg);
+.forecast-daily_active {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
 }
 
 @media (max-width: 991.98px) {
@@ -612,16 +632,16 @@
 @media (max-width: 767.98px) {
   .forecast-daily {
     width: 100%;
+    margin-bottom: 20px;
   }
 }
 
 .forecast-daily-day {
-  display: none;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   position: absolute;
   width: calc(100% - 40px);
   height: calc(100% - 30px);
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -643,12 +663,14 @@
   left: -50px;
   width: 120px;
   height: 35px;
+  opacity: 0;
+  visibility: hidden;
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
   background: rgba(250, 135, 123, 0.7);
   letter-spacing: 1px;
-  -webkit-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
-  transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s;
+  -webkit-transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  transition: letter-spacing 0.4s, left 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
 }
 
 @media (min-width: 768px) {
@@ -663,13 +685,13 @@
 }
 
 .forecast-daily-day__title {
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 
 .forecast-daily-day__item {
   width: 100%;
   margin-bottom: 15px;
-  padding-left: 60px;
+  padding-left: 50px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -693,6 +715,12 @@
 .forecast-daily-day__part {
   margin-bottom: 5px;
   font-size: 18px;
+}
+
+.forecast-daily-day__feel {
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 300;
 }
 
 .forecast-daily-day__temp {
@@ -727,13 +755,378 @@
   }
 }
 
-.forecast-daily-day__icon {
-  width: 65px;
-  height: 65px;
-}
-
-.r {
+.forecast-daily-hour {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  position: absolute;
+  width: calc(100% - 40px);
+  height: calc(100% - 30px);
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
+}
+
+.forecast-daily-hour__button {
+  position: absolute;
+  top: 45%;
+  right: -50px;
+  width: 120px;
+  height: 35px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  background: rgba(138, 126, 242, 0.7);
+  letter-spacing: 1px;
+  -webkit-transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  transition: letter-spacing 0.4s, right 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+}
+
+@media (min-width: 768px) {
+  .forecast-daily-hour__button:hover {
+    letter-spacing: 2px;
+    right: -59px;
+    height: 45px;
+    background: #8A7EF2;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
+.forecast-daily-hour__title {
+  margin-bottom: 20px;
+}
+
+.forecast-daily-hour__inner {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-right: 50px;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-daily-hour__inner {
+    padding-right: 45px;
+  }
+}
+
+.forecast-daily-hour__list {
+  list-style-type: none;
+}
+
+.forecast-daily-hour__item {
+  margin-bottom: 18px;
+  width: 100px;
+}
+
+.forecast-daily-hour__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.forecast-daily-hour__temp {
+  font-weight: 700;
+  color: #8A7EF2;
+}
+
+.forecast-daily-hour__descr {
+  color: #8A7EF2;
+}
+
+.forecast-daily-hour__divider {
+  width: 1px;
+  height: 310px;
+  background: rgba(138, 126, 242, 0.5);
+}
+
+.forecast-weekly {
+  position: relative;
+  width: 100%;
+  height: 395px;
+  margin-left: 35px;
+}
+
+@media (max-width: 767.98px) {
+  .forecast-weekly {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly {
+    height: 340px;
+    padding: 15px 5px;
+  }
+}
+
+.forecast-weekly__short {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 363px;
+  background: #fff;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__short {
+    height: 308px;
+    padding: 15px 5px;
+  }
+}
+
+.forecast-weekly__title {
+  margin-bottom: 35px;
+}
+
+.forecast-weekly__wrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.forecast-weekly__item {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 25%;
+          flex: 0 0 25%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-right: 1px solid rgba(250, 135, 123, 0.5);
+}
+
+.forecast-weekly__item:last-child {
+  border-right: none;
+}
+
+.forecast-weekly__date {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.forecast-weekly__date_today {
+  font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__date {
+    font-size: 16px;
+  }
+}
+
+.forecast-weekly__temp-day {
+  margin-bottom: 2px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fa877b;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__temp-day {
+    font-size: 20px;
+  }
+}
+
+.forecast-weekly__temp-night {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #8A7EF2;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__temp-night {
+    font-size: 16px;
+  }
+}
+
+.forecast-weekly__icon {
+  margin-bottom: 10px;
+  width: 70px;
+  height: 70px;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.forecast-weekly__button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 140px;
+  height: 40px;
+  background: rgba(250, 135, 123, 0.7);
+  letter-spacing: 1px;
+  -webkit-transition: letter-spacing 0.4s, bottom 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+  transition: letter-spacing 0.4s, bottom 0.4s, background 0.4s, height 0.4s, visibility 0.4s, opacity 0.4s;
+}
+
+@media (min-width: 768px) {
+  .forecast-weekly__button:hover {
+    height: 65px;
+    bottom: -16px;
+    letter-spacing: 2px;
+    background: #fa877b;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
+.forecast-weekly__long {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 15px 5px;
+  width: 100%;
+  height: 395px;
+  background: #fff;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__long {
+    height: 340px;
+    padding: 15px 5px;
+  }
+}
+
+.forecast-weekly__long_active {
+  -webkit-transform: translateY(calc(100% + 20px));
+          transform: translateY(calc(100% + 20px));
+}
+
+.forecast-weekly__table {
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__table td {
+    font-size: 14px;
+  }
+}
+
+.forecast-weekly__table-article {
+  font-weight: 300;
+  font-size: 12px;
+  color: #fa877b;
+}
+
+.forecast-weekly__table-article span {
+  font-size: 21px;
+  color: #fa877b;
+}
+
+.forecast-weekly__table-date {
+  font-weight: 700;
+}
+
+.forecast-weekly__table-temp span:first-child {
+  color: #fa877b;
+}
+
+.forecast-weekly__table-temp span:last-child {
+  color: #8A7EF2;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__table-temp span {
+    font-size: 14px;
+  }
+}
+
+.forecast-weekly__table-icon {
+  width: 35px;
+  height: 35px;
+}
+
+@media (max-width: 575.98px) {
+  .forecast-weekly__table-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.forecast-weekly__table-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.daylength {
+  margin-bottom: 20px;
+  -webkit-transition: opacity 0.4s, visibility 0.4s;
+  transition: opacity 0.4s, visibility 0.4s;
+}
+
+.daylength__wrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+@media (max-width: 767.98px) {
+  .daylength__wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+
+.daylength-info {
+  width: 392px;
+  height: 395px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+@media (max-width: 991.98px) {
+  .daylength-info {
+    width: 320px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .daylength-info {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.daylength-info__img {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.daylength-info__inner {
+  margin-top: 25px;
 }
 /*# sourceMappingURL=style.min.css.map */

@@ -14,7 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
         forecastBlock = document.querySelector('.forecast'),
         dailyCard = document.querySelector('.forecast-daily'),
         dailyBtn = document.querySelector('.forecast-daily-day__button'),
-        hourlyBtn = document.querySelector('.forecast-daily-hour__button');
+        hourlyBtn = document.querySelector('.forecast-daily-hour__button'),
+        weeklyBtn = document.querySelector('.forecast-weekly__button'),
+        longForecastCard = document.querySelector('.forecast-weekly__long');
 
     function showBlock(selector, activeClass) {
         selector.classList.remove('op-0');
@@ -34,6 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
         dailyCard.classList.remove('forecast-daily_active');
         dailyBtn.classList.add('button_active');
         hourlyBtn.classList.remove('button_active');
+        longForecastCard.classList.remove('forecast-weekly__long_active');
     });
 
     function rotateCard(btn) {
@@ -47,16 +50,13 @@ window.addEventListener('DOMContentLoaded', () => {
     rotateCard(hourlyBtn);
     rotateCard(dailyBtn);
 
-    function showLongForecast() {
-        const btn = document.querySelector('.forecast-weekly__button'),
-            longForecastCard = document.querySelector('.forecast-weekly__long');
-
+    function showLongForecast(btn) {
         btn.addEventListener('click', () => {
             longForecastCard.classList.toggle('forecast-weekly__long_active');
         });
     }
 
-    showLongForecast();
+    showLongForecast(weeklyBtn);
 
     //=================================================================== weather api
     mainForm.addEventListener('submit', (e) => {
@@ -144,7 +144,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function displayForecast(data) {
         console.log(data);
-        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            timezoneOffset = data.timezone_offset;
+
+        function getCorrectDate(date) {
+            if (timezoneOffset == 10800) {
+                return new Date(date * 1000);
+            } else {
+                return new Date((date + timezoneOffset - 10800) * 1000);
+            }
+        }
 
         function displayDailyForecast() {
             let morningTemp = document.querySelector('[data-temp="morning"]'),
@@ -174,11 +183,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 temp = document.querySelectorAll('.forecast-daily-hour__temp'),
                 descr = document.querySelectorAll('.forecast-daily-hour__descr');
 
-            function getHour(date) {
-                return new Date(date * 1000).getHours();
-            }
             hour.forEach((hour, key) => {
-                hour.innerText = `${getHour(data.hourly[key].dt)}:00`;
+                hour.innerText = `${getCorrectDate(data.hourly[key].dt).getHours()}:00`;
             });
             temp.forEach((temp, key) => {
                 temp.innerHTML = `${Math.round(data.hourly[key].temp)}&deg;`;
@@ -197,8 +203,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 icon = document.querySelectorAll('.forecast-weekly__icon');
 
             date.forEach((day, key) => {
-                let currentDate = new Date(data.daily[key].dt * 1000);
-                day.innerText = `${dayNames[currentDate.getDay()]} ${currentDate.getDate()}`;
+                day.innerText = `${dayNames[getCorrectDate(data.daily[key].dt).getDay()]} ${getCorrectDate(data.daily[key].dt).getDate()}`;
             });
             dayTemp.forEach((dayTemp, key) => {
                 dayTemp.innerHTML = `${Math.round(data.daily[key].temp.day)}&deg;`;
@@ -221,11 +226,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 pressure = document.querySelectorAll('.forecast-weekly__table-pressure'),
                 wind = document.querySelectorAll('.forecast-weekly__table-wind'),
                 feel = document.querySelectorAll('.forecast-weekly__table-feel');
-            
 
             date.forEach((date, key) => {
-                let currentDate = new Date(data.daily[key].dt * 1000);
-                date.innerText = `${dayNames[currentDate.getDay()]} ${currentDate.getDate()}`;
+                date.innerText = `${dayNames[getCorrectDate(data.daily[key].dt).getDay()]} ${getCorrectDate(data.daily[key].dt).getDate()}`;
             });
             temp.forEach((temp, key) => {
                 temp.innerHTML = `<span>${Math.round(data.daily[key].temp.day)}&deg;</span> / <span>${Math.round(data.daily[key].temp.night)}&deg;</span>`;
@@ -248,6 +251,45 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         displayLongForecast();
+
+        function displayDaylengthInfo() {
+            let sunriseTime = document.querySelector('.daylength-info__time_sunrise'),
+                sunsetTime = document.querySelector('.daylength-info__time_sunset'),
+                daylength = document.querySelector('.daylength-info__duration');
+
+            function displayCurrentTime(date, selector) {
+                let currentHours,
+                    currentMinutes;
+
+                currentHours = getCorrectDate(date).getHours(),
+                    currentMinutes = getCorrectDate(date).getMinutes();
+
+                if (currentHours < 10) {
+                    currentHours = `0${currentHours}`;
+                }
+                if (currentMinutes < 10) {
+                    currentMinutes = `0${currentMinutes}`;
+                }
+                selector.innerText = `${currentHours}:${currentMinutes}`;
+            }
+
+            displayCurrentTime(data.current.sunrise, sunriseTime);
+            displayCurrentTime(data.current.sunset, sunsetTime);
+
+            function getDaylength() {
+                let sunriseDate = new Date(data.current.sunrise * 1000),
+                    sunsetDate = new Date(data.current.sunset * 1000);
+                const daylength = {
+                    hours: Math.floor((sunsetDate - sunriseDate) / 1000 / 60 / 60),
+                    minutes: Math.floor(((sunsetDate - sunriseDate) / 1000 / 60) % 60)
+                };
+                return daylength;
+            }
+
+            daylength.innerHTML = `<span>Daylength</span><br>${getDaylength().hours} hours ${getDaylength().minutes} minutes`;
+        }
+
+        displayDaylengthInfo();
     }
 
 });
