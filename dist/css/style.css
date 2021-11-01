@@ -380,6 +380,62 @@
   display: none;
 }
 
+@-webkit-keyframes showBlock {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(300%);
+            transform: translateY(300%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes showBlock {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(300%);
+            transform: translateY(300%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@-webkit-keyframes showImg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes showImg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.op-0 {
+  opacity: 0;
+}
+
+.op-1 {
+  opacity: 1;
+  -webkit-animation: showBlock 0.4s ease-in-out;
+          animation: showBlock 0.4s ease-in-out;
+}
+
+.op-1_img {
+  -webkit-animation: showImg 0.4s ease-in-out;
+          animation: showImg 0.4s ease-in-out;
+}
+
 .weather {
   margin-bottom: 40px;
 }
@@ -1076,7 +1132,10 @@
   width: 100%;
   height: 395px;
   margin-left: 35px;
-  background: url("../img/01n-bg.jpg") center center/cover no-repeat;
+  background-image: url("../img/01n-bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .daylength-photo p {
   position: absolute;
@@ -1087,7 +1146,7 @@
           transform: translateX(-50%);
   font-size: 12px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: 1px;
 }
 @media (max-width: 575.98px) {

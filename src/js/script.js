@@ -1,7 +1,7 @@
 'use strict';
 
 window.addEventListener('DOMContentLoaded', () => {
-    //=================================================================== first animation
+    //=================================================================== main animation
     const mainLogo = document.querySelector('.header__logo'),
         mainWrapper = document.querySelector('.search__wrapper'),
         mainTitle = document.querySelector('.search__title'),
@@ -30,10 +30,12 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(showBlock, 1200, mainButton, 'op-1');
     setTimeout(showBlock, 1200, mainPhoto, 'op-1_img');
 
-    //=================================================================== active btn
+    //=================================================================== active btns
     mainLogo.addEventListener('click', () => {
         mainWrapper.classList.remove('search__wrapper_active');
         weatherBlock.classList.add('disN');
+        forecastBlock.classList.add('disN');
+        daylengthBlock.classList.add('disN');
         dailyCard.classList.remove('forecast-daily_active');
         dailyBtn.classList.add('button_active');
         hourlyBtn.classList.remove('button_active');
@@ -66,6 +68,8 @@ window.addEventListener('DOMContentLoaded', () => {
         mainForm.reset();
         mainWrapper.classList.add('search__wrapper_active');
         weatherBlock.classList.remove('disN');
+        forecastBlock.classList.remove('disN');
+        daylengthBlock.classList.remove('disN');
     });
 
     const api = {
@@ -92,7 +96,7 @@ window.addEventListener('DOMContentLoaded', () => {
             })
             .then(displayCurrentWeather);
     }
-
+    //=================================================================== current weather
     function displayCurrentWeather(data) {
         let city = document.querySelector('.weather__main-city'),
             date = document.querySelector('.weather__main-date'),
@@ -104,11 +108,12 @@ window.addEventListener('DOMContentLoaded', () => {
             humidity = document.querySelector('[data-article="humidity"]'),
             pressure = document.querySelector('[data-article="pressure"]'),
             wind = document.querySelector('[data-article="wind"]'),
+            weatherPhoto = document.querySelector('.daylength-photo'),
             timezoneOffset = data.timezone,
             currentDate;
 
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        
+
         if (timezoneOffset == 10800) {
             currentDate = new Date(data.dt * 1000);
         } else {
@@ -151,10 +156,41 @@ window.addEventListener('DOMContentLoaded', () => {
             pressure.innerText = `${data.main.pressure} mb`;
             wind.innerText = `${Math.round(data.wind.speed)} m/s`;
 
+            let condition;
+            switch (data.weather[0].icon) {
+                case '01d':
+                case '02d':
+                    condition = '01d';
+                    break;
+                case '03d':
+                case '04d':
+                    condition = '03d';
+                    break;
+                case '09d':
+                case '10d':
+                    condition = '09d';
+                    break;
+                case '01n':
+                case '02n':
+                    condition = '01n';
+                    break;
+                case '03n':
+                case '04n':
+                    condition = '03n';
+                    break;
+                case '09n':
+                case '10n':
+                    condition = '09n';
+                    break;
+                default:
+                    condition = data.weather[0].icon;
+            }
+            weatherPhoto.style.backgroundImage = `url("img/${condition}-bg.jpg")`;
+
             getForecastData(data.coord);
         }
     }
-
+    //=================================================================== weather forecast
     function getForecastData(coord) {
         fetch(`${api.url}onecall?lat=${coord.lat}&lon=${coord.lon}&units=metric&exclude=minutely&appid=${api.key}`)
             .then(data => {
@@ -271,7 +307,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         displayLongForecast();
-
+        //=================================================================== daylength block
         function displayDaylengthInfo() {
             let sunriseTime = document.querySelector('.daylength-info__time_sunrise'),
                 sunsetTime = document.querySelector('.daylength-info__time_sunset'),
@@ -305,5 +341,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
         displayDaylengthInfo();
     }
-
 });

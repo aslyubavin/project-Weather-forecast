@@ -4,7 +4,11 @@
     width: 100%;
     height: 395px;
     margin-left: 35px;
-    background: url("../img/01n-bg.jpg") center (center / cover) no-repeat;
+    background-image: url("../img/01n-bg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
     p {
         position: absolute;
         bottom: 15px;
@@ -12,7 +16,7 @@
         transform: translateX(-50%);
         font-size: 12px;
         font-weight: 300;
-        color: rgba(255,255,255, 0.3);
+        color: rgba(255,255,255, 0.5);
         letter-spacing: 1px;
         @media (max-width: 575.98px) {
             font-size: 10px;
