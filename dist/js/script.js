@@ -16,7 +16,8 @@ window.addEventListener('DOMContentLoaded', () => {
         dailyBtn = document.querySelector('.forecast-daily-day__button'),
         hourlyBtn = document.querySelector('.forecast-daily-hour__button'),
         weeklyBtn = document.querySelector('.forecast-weekly__button'),
-        longForecastCard = document.querySelector('.forecast-weekly__long');
+        longForecastCard = document.querySelector('.forecast-weekly__long'),
+        daylengthBlock = document.querySelector('.daylength');
 
     function showBlock(selector, activeClass) {
         selector.classList.remove('op-0');
@@ -76,6 +77,14 @@ window.addEventListener('DOMContentLoaded', () => {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    function setZero(num) {
+        if (num < 10) {
+            return `0${num}`;
+        } else {
+            return num;
+        }
+    }
+
     function getCurrentData(value) {
         fetch(`${api.url}weather?q=${value}&units=metric&appid=${api.key}`)
             .then(data => {
@@ -85,6 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCurrentWeather(data) {
+        console.log(data);
         let city = document.querySelector('.weather__main-city'),
             date = document.querySelector('.weather__main-date'),
             temp = document.querySelector('.weather__main-temp'),
@@ -94,10 +104,17 @@ window.addEventListener('DOMContentLoaded', () => {
             minmaxTemp = document.querySelector('[data-article="minmax"]'),
             humidity = document.querySelector('[data-article="humidity"]'),
             pressure = document.querySelector('[data-article="pressure"]'),
-            wind = document.querySelector('[data-article="wind"]');
+            wind = document.querySelector('[data-article="wind"]'),
+            timezoneOffset = data.timezone,
+            currentDate;
 
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        let currentDate = new Date(data.dt * 1000);
+        
+        if (timezoneOffset == 10800) {
+            currentDate = new Date(data.dt * 1000);
+        } else {
+            currentDate = new Date((data.dt + timezoneOffset - 10800) * 1000);
+        }
 
         if (data.cod == 400 || data.cod == 404) {
             city.innerText = 'City not found';
@@ -114,12 +131,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
             forecastBlock.style.opacity = '0';
             forecastBlock.style.visibility = 'hidden';
+            daylengthBlock.style.opacity = '0';
+            daylengthBlock.style.visibility = 'hidden';
         } else {
             forecastBlock.style.opacity = '1';
             forecastBlock.style.visibility = 'visible';
+            daylengthBlock.style.opacity = '1';
+            daylengthBlock.style.visibility = 'visible';
 
             city.innerText = data.name;
-            date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()} | ${currentDate.getHours()}:00`;
+            date.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()} | ${setZero(currentDate.getHours())}:${setZero(currentDate.getMinutes())}`;
             temp.innerHTML = `${Math.round(+data.main.temp)}&deg;`;
             icon.src = `img/${data.weather[0].icon}-icon.svg`;
             descr.innerText = toUpperCaseFirstChar(data.weather[0].description);
@@ -143,7 +164,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayForecast(data) {
-        console.log(data);
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             timezoneOffset = data.timezone_offset;
 
@@ -264,13 +284,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 currentHours = getCorrectDate(date).getHours(),
                     currentMinutes = getCorrectDate(date).getMinutes();
 
-                if (currentHours < 10) {
-                    currentHours = `0${currentHours}`;
-                }
-                if (currentMinutes < 10) {
-                    currentMinutes = `0${currentMinutes}`;
-                }
-                selector.innerText = `${currentHours}:${currentMinutes}`;
+                selector.innerText = `${setZero(currentHours)}:${setZero(currentMinutes)}`;
             }
 
             displayCurrentTime(data.current.sunrise, sunriseTime);
