@@ -20,6 +20,7 @@
         position: absolute;
         width: calc(100% - 40px);
         height: calc(100% - 30px);
+        transform: rotateX(0deg);
         display: flex;
         flex-direction: column;
         justify-content: stretch;

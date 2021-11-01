@@ -644,6 +644,8 @@
   position: absolute;
   width: calc(100% - 40px);
   height: calc(100% - 30px);
+  -webkit-transform: rotateX(0deg);
+          transform: rotateX(0deg);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
