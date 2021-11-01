@@ -94,7 +94,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCurrentWeather(data) {
-        console.log(data);
         let city = document.querySelector('.weather__main-city'),
             date = document.querySelector('.weather__main-date'),
             temp = document.querySelector('.weather__main-temp'),
@@ -129,6 +128,7 @@ window.addEventListener('DOMContentLoaded', () => {
             pressure.innerText = '--';
             wind.innerText = '--';
 
+            longForecastCard.classList.remove('forecast-weekly__long_active');
             forecastBlock.style.opacity = '0';
             forecastBlock.style.visibility = 'hidden';
             daylengthBlock.style.opacity = '0';
